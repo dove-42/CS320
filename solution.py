@@ -17,7 +17,7 @@ def nQueensAll(n):
         raise ValueError
     else:
         board = np.zeros((n,n)) # making the matrix representation of the board
-        queenQueue = deque() #creating queue to hold already placed queens
+        placedQueens = deque()
         occupiedRows = []
         occupiedCols = []
         for row in range (0,n): #iterate through rows
@@ -27,10 +27,18 @@ def nQueensAll(n):
                 if col in occupiedCols:
                     break 
                 if board[row][col] == 0:
-                    #check diagonal is good
-                    board[row][col] = 1
-                    occupiedRows += row
-                    occupiedCols += col
+                    if placedQueens.isEmpty():
+                        continue
+                    else:
+                        if abs(row - placedQueens[-1][0]) == abs(col - placedQueens[-1][1]):
+                            break
+                        else:
+                            board[row][col] = 1
+                            occupiedRows += [row]
+                            occupiedCols += [col]
+                            placedQueens.append((row,col))
+        #go back to the last queen in the queue and save her old position (mark as unavailible) and find a new one
+        #   implement this using a helper function?
         return
     
 
