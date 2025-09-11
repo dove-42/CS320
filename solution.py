@@ -1,13 +1,12 @@
 
 import numpy as np
-from collections import deque
 
 def findSolution(n, row, board, solution):
     if row == n: #we have gone through all of the rows
         return solution
     
     if len(solution) == 0:
-        board[row][col] = 1
+        board[row][0] = 1  #col is not defined yet, start at col 0
         solution += [(row, col)]
         findSolution(n, row + 1, board, solution)
     
@@ -18,6 +17,7 @@ def findSolution(n, row, board, solution):
             solution += [(row, col)]
             findSolution(n, row + 1, board, solution)
 
+            #backtracking has to be here as the previous recursive call will return here after failure (when we need to backtrack)
             board[row][col] = 0
             solution.pop()
 
