@@ -9,7 +9,7 @@ def findSolution(n, row, board, solution):
     if len(solution) == 0:
         board[row][col] = 1
         solution += [(row, col)]
-        return findSolution(n, row + 1, board, solution)
+        findSolution(n, row + 1, board, solution)
     
     for col in range(0,n): #we check every column in each row
         #got logic for the diagonal check from the lab instructions
