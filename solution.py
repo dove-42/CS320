@@ -17,8 +17,9 @@ def findSolution(n, row, board, solution):
             board[row][col] = 1
             solution += [(row, col)]
             findSolution(n, row + 1, board, solution)
-        solution.pop()
-        board[row][col] = 0
+
+            board[row][col] = 0
+            solution.pop()
 
 def nQueensAll(n):
     if n < 4:
