@@ -16,9 +16,9 @@ def findSolution(n, row, board, solution):
         if board[row][col] == 0 and (abs(row - solution[-1][0]) != abs(col - solution[-1][1])):
             board[row][col] = 1
             solution += [(row, col)]
-            return findSolution(n, row + 1, board, solution)
+            findSolution(n, row + 1, board, solution)
         solution.pop()
-        return findSolution(n, row-1, board, solution)
+        board[row][col] = 0
 
 def nQueensAll(n):
     if n < 4:
@@ -26,7 +26,7 @@ def nQueensAll(n):
     else:
         board = np.zeros((n,n)) # making the matrix representation of the board
         solutions = []
-        for row in range(0,n):
+        for row in range(0,n): 
             currSolution = []
             currSolution = findSolution(n,row,board,currSolution)
             solutions += [currSolution]
