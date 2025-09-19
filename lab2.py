@@ -15,10 +15,18 @@ def computeHeight(t):
     #each key has 0-2 children, find the deppest number of children
     #can use recursion to visit children nodes
     return
+def leftChildIsValid(index, t):
+    if t[index  * 2 + 1] != None:
+        return True
+    return False
 
-    
+def rightChildIsValid(index, t):
+    if t[index * 2 + 2] != None:
+        return True
+    return False 
+
 def hasLeftChild(index, t):
-    if ((index * 2) + 1) < len(t):
+    if (index * 2 + 1) < len(t):
         return True
     return False
 
@@ -53,12 +61,29 @@ def findKey(k,t):
         else:
             return index
 
-def addKeyHelper(k, t):
-    if findKey(k, t) != None:
+def addKeyHelper(k, t, index):
+    if t[index] == None:
+        t[index] = k
         return t
+    elif k < t[index]:
+        if hasLeftChild(index, t):
+            return addKeyHelper(k, t, index * 2 + 1)
+        else:
+            leftChildIndex = index * 2 + 1
+            t[leftChildIndex] = k
+            t[leftChildIndex * 2 + 1] = None
+            t[leftChildIndex * 2 + 2] = None
+            return t
     else:
-         # Find where key should go, but isn't, and add it, recursively fixing children pointers
-         # Return t
+        if hasRightChild(index, t):
+            return addKeyHelper(k, t, index * 2 + 2)
+        else:
+            rightChildIndex = index * 2 + 2
+            t[rightChildIndex] = k
+            t[rightChildIndex * 2 + 1] = None
+            t[rightChildIndex * 2 + 2] = None
+            return t
+
 
 def addKey(k,t):  # Return the updated tree, maintain binary search properties
     if not verifyKey(k):
@@ -67,8 +92,10 @@ def addKey(k,t):  # Return the updated tree, maintain binary search properties
         return
     if len(t) == 0:
         return t
+    if findKey(k, t) != None:
+        return t
     else:
-        newT = addKeyHelper(k,t)
+        newT = addKeyHelper(k, t, 0)
         return newT
 
 def deleteKeyHelper(k, t):
