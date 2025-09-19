@@ -12,7 +12,7 @@ def verifyKey(k):
 
 def computeHeight(t):
     #takes in the treeList and computes height of the tree
-    #each key has 0-2 children, find teh deppest number of children
+    #each key has 0-2 children, find the deppest number of children
     #can use recursion to visit children nodes
     return
 
@@ -39,7 +39,7 @@ def findKeyHelper(k, t, index):
     return None
 
 
-def findKey(k,t):  # Return the index in t which holds the value k
+def findKey(k,t):
     if not verifyTree(t):
         return
     if not verifyKey(k):
@@ -68,12 +68,23 @@ def addKey(k,t):  # Return the updated tree, maintain binary search properties
     if len(t) == 0:
         return t
     else:
-        newT = addKeyHelper(k,t) 
-        return newT    
-    return
+        newT = addKeyHelper(k,t)
+        return newT
+
+def deleteKeyHelper(k, t):
+    index = findKey(k, t)
+    if index == None:  # Key is not in tree
+        return 
+    else:
+        # Remove key at index, recursively fixing children pointers
+        # Return new tree
 
 def deleteKey(k,t):  # Return the updated tree, maintain binary search properties
-    if t.size() == 0:  # Tree is empty
+    if not verifyKey(k):
+        return
+    if not verifyTree(t):
+        return
+    if len(t) == 0:  # Tree is empty
         return
     #if all keys are gone, return an empty tree
     return
