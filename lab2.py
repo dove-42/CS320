@@ -4,6 +4,12 @@ def verifyTree(t):
         return False
     return True
 
+def verifyKey(k):
+    if k == None:
+        raise ValueError("null_key")
+        return False
+    return True
+
 def computeHeight(t):
     #takes in the treeList and computes height of the tree
     #each key has 0-2 children, find teh deppest number of children
@@ -34,21 +40,18 @@ def findKeyHelper(k, t, index):
 
 
 def findKey(k,t):  # Return the index in t which holds the value k
-    if len(t) == 0:
+    if not verifyTree(t):  # Tree is None
+        return
+    if not verifyKey(k):
+        return
+    if len(t) == 0:  # Tree is empty
         raise LookupError("not_in_tree")
     else:
         index = findKeyHelper(k, t, 0)
-        if index == None:
+        if index == None:  # Key not found
             raise LookupError("not_in_tree")
         else:
             return index
-
-    if t.size() == 0:  # Tree is empty
-        raise LookupError("not_in_tree")
-        return None
-    #if k not in t: raise LookupError("not_in_tree")
-    #leftChild of key i is at index [(i*2)+1], rightChild at index [(i*2)+2]
-    return
 
 def addKey(k,t):  # Return the updated tree, maintain binary search properties
     if k == None:
