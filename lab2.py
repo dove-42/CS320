@@ -40,25 +40,36 @@ def findKeyHelper(k, t, index):
 
 
 def findKey(k,t):  # Return the index in t which holds the value k
-    if not verifyTree(t):  # Tree is None
+    if not verifyTree(t):
         return
     if not verifyKey(k):
         return
-    if len(t) == 0:  # Tree is empty
+    if len(t) == 0:
         raise LookupError("not_in_tree")
     else:
         index = findKeyHelper(k, t, 0)
-        if index == None:  # Key not found
+        if index == None:
             raise LookupError("not_in_tree")
         else:
             return index
 
+def addKeyHelper(k, t):
+    if findKey(k, t) != None:
+        return t
+    else:
+         # Find where key should go, but isn't, and add it, recursively fixing children pointers
+         # Return t
+
 def addKey(k,t):  # Return the updated tree, maintain binary search properties
-    if k == None:
-        raise ValueError("null_key")
-    if t.size() == 0:  # Tree is empty
-        t += [k]
+    if not verifyKey(k):
         return
+    if not verifyTree(t):
+        return
+    if len(t) == 0:
+        return t
+    else:
+        newT = addKeyHelper(k,t) 
+        return newT    
     return
 
 def deleteKey(k,t):  # Return the updated tree, maintain binary search properties
@@ -66,5 +77,3 @@ def deleteKey(k,t):  # Return the updated tree, maintain binary search propertie
         return
     #if all keys are gone, return an empty tree
     return
-
-#Code must work with empty trees
