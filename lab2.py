@@ -10,11 +10,6 @@ def verifyKey(k):
         return False
     return True
 
-def computeHeight(t):
-    #takes in the treeList and computes height of the tree
-    #each key has 0-2 children, find the deppest number of children
-    #can use recursion to visit children nodes
-    return
 def leftChildIsValid(index, t):
     if t[index  * 2 + 1] != None:
         return True
@@ -46,7 +41,6 @@ def findKeyHelper(k, t, index):
         return findKeyHelper(k, t, (index * 2 + 2))
     return None
 
-
 def findKey(k,t):
     if not verifyTree(t):
         return
@@ -61,36 +55,39 @@ def findKey(k,t):
         else:
             return index
 
+def extendTree(toIndex, t):
+    if toIndex >= len(t):
+        t += [None] * (toIndex - len(t) + 1)
+
 def addKeyHelper(k, t, index):
-    if t[index] == None:
+    if index >= len(t):
+        extendTree(index, t)
+    if t[index] is None:
         t[index] = k
         return t
     elif k < t[index]:
         if hasLeftChild(index, t):
             return addKeyHelper(k, t, index * 2 + 1)
         else:
-            leftChildIndex = index * 2 + 1
-            t[leftChildIndex] = k
-            t[leftChildIndex * 2 + 1] = None
-            t[leftChildIndex * 2 + 2] = None
+            extendTree(index * 2 + 1, t)
+            t[index * 2 + 1] = k
             return t
     else:
         if hasRightChild(index, t):
             return addKeyHelper(k, t, index * 2 + 2)
         else:
-            rightChildIndex = index * 2 + 2
-            t[rightChildIndex] = k
-            t[rightChildIndex * 2 + 1] = None
-            t[rightChildIndex * 2 + 2] = None
+            extendTree(index * 2 + 2, t)
+            t[index * 2 + 2] = k
             return t
 
-
-def addKey(k,t):  # Return the updated tree, maintain binary search properties
+def addKey(k,t):
     if not verifyKey(k):
         return
     if not verifyTree(t):
         return
     if len(t) == 0:
+        extendTree(2, t)
+        t[0]  = k
         return t
     if findKey(k, t) != None:
         return t
@@ -115,3 +112,54 @@ def deleteKey(k,t):  # Return the updated tree, maintain binary search propertie
         return
     #if all keys are gone, return an empty tree
     return
+
+def _iOILeft(n, t):
+    i = prev = n
+    while (i < len(t)) and (t[i] is not None):
+    prev = i
+    i = (i * 2) + 1
+    return prev if (prev != n) else None
+
+# left child -> parent
+# right child -> leftmost of grandparent’s right
+def _iOINext(n, t):
+    r = (n * 2) + 2 # right
+    if (r < len(t)) and (t[r] is not None):
+# parent with right child
+# move to leftmost child of right (or right
+# if no child)
+    if (n := _iOILeft(r, t)) is not None:
+    return n
+return r
+elif n % 2:
+# left leaf or left parent with no
+# right child, go to parent
+n = (n - 1) // 2 # left child -> parent
+return n
+else:
+# at this point, right leaf with
+# no right children. So node’s
+# parent’s subtree is completed.
+# so next is first ancestor
+# above parent who is parent
+# of a left node
+p = (n - 2) // 2 # parent
+leftp = p % 2
+gp = (p - 1) // 2 # grandparent
+while gp and (not leftp):
+leftp = gp % 2
+gp = (gp - 1) // 2
+if leftp:
+return gp
+return -1
+# this is a generator routine that
+# returns successive elements in the
+# inorder traversal
+def _iOI(t):
+# find leftmost child = start node
+4
+if (inorder := _iOILeft(0, t)) is None:
+inorder = 0
+while inorder >= 0:
+yield t[inorder]
+inorder = _iOINext(inorder, t)
