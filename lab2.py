@@ -1,22 +1,22 @@
 def verifyTree(t):
-    if t == None:
+    if t is None:
         raise ValueError("no␣tree")
         return False
     return True
 
 def verifyKey(k):
-    if k == None:
+    if k is None:
         raise ValueError("null␣key")
         return False
     return True
 
 def leftChildIsValid(index, t):
-    if t[index  * 2 + 1] != None:
+    if t[index  * 2 + 1] is not None:
         return True
     return False
 
 def rightChildIsValid(index, t):
-    if t[index * 2 + 2] != None:
+    if t[index * 2 + 2] is not None:
         return True
     return False
 
@@ -41,6 +41,17 @@ def findKeyHelper(k, t, index):
         return findKeyHelper(k, t, (index * 2 + 2))
     return None
 
+def findKeyIndex(k, t):
+    if not verifyTree(t):
+        return
+    if not verifyKey(k):
+        return
+    if len(t) == 0:
+        raise LookupError("not␣in␣tree")
+    else:
+        index = findKeyHelper(k, t, 0)
+        return index
+
 def findKey(k,t):
     if not verifyTree(t):
         return
@@ -50,7 +61,7 @@ def findKey(k,t):
         raise LookupError("not␣in␣tree")
     else:
         index = findKeyHelper(k, t, 0)
-        if index == None:
+        if index is None:
             raise LookupError("not␣in␣tree")
             return None
         else:
@@ -90,7 +101,7 @@ def addKey(k,t):
         extendTree(2, t)
         t[0]  = k
         return t
-    if findKey(k, t) != None:
+    if findKeyIndex(k, t) is not None:
         return t
     else:
         newT = addKeyHelper(k, t, 0)
@@ -130,7 +141,7 @@ def deleteKey(k, t):
     if len(t) == 0:
         return t
     else:
-        indexToDelete = findKey(k, t)
+        indexToDelete = findKeyIndex(k, t)
         if indexToDelete is None:
             return t
         else:
