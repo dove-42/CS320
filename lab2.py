@@ -1,12 +1,12 @@
 def verifyTree(t):
     if t == None:
-        raise ValueError("no_tree")
+        raise ValueError("no␣tree")
         return False
     return True
 
 def verifyKey(k):
     if k == None:
-        raise ValueError("null_key")
+        raise ValueError("null␣key")
         return False
     return True
 
@@ -47,11 +47,11 @@ def findKey(k,t):
     if not verifyKey(k):
         return
     if len(t) == 0:
-        raise LookupError("not_in_tree")
+        raise LookupError("not␣in␣tree")
     else:
         index = findKeyHelper(k, t, 0)
         if index == None:
-            raise LookupError("not_in_tree")
+            raise LookupError("not␣in␣tree")
             return None
         else:
             return index
