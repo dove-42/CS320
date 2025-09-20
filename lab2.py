@@ -18,7 +18,7 @@ def leftChildIsValid(index, t):
 def rightChildIsValid(index, t):
     if t[index * 2 + 2] != None:
         return True
-    return False 
+    return False
 
 def hasLeftChild(index, t):
     if (index * 2 + 1) < len(t):
@@ -52,6 +52,7 @@ def findKey(k,t):
         index = findKeyHelper(k, t, 0)
         if index == None:
             raise LookupError("not_in_tree")
+            return None
         else:
             return index
 
@@ -95,71 +96,49 @@ def addKey(k,t):
         newT = addKeyHelper(k, t, 0)
         return newT
 
-def deleteKeyHelper(k, t):
-    index = findKey(k, t)
-    if index == None:  # Key is not in tree
-        return 
-    else:
-        # Remove key at index, recursively fixing children pointers
-        # Return new tree
+def _iOILeft(n, t):  # Code taken from provided functions in lab instructions
+    i = prev = n
+    while (i < len(t)) and (t[i] is not None):
+        prev = i
+        i = (i * 2) + 1
+    return prev if (prev != n) else None
 
-def deleteKey(k,t):  # Return the updated tree, maintain binary search properties
+def deleteKeyHelper(index, t):
+    if t[index] is None:  # k has been successfully removed
+        return t
+    if not hasLeftChild(index, t) and not hasRightChild(index, t):  # Node is a leaf
+        t[index] = None
+        return t
+    elif hasLeftChild(index, t) and not rightChildIsValid(index, t):  # Only has a nonNull left child
+        leftChildIndex = index * 2 + 1
+        t[index] = t[leftChildIndex]
+        return deleteKeyHelper(leftChildIndex, t)
+    elif not hasLeftChild(index, t) and hasRightChild(index, t):  # Only has nonNull right child
+        rightChildIndex = index * 2 + 2
+        t[index] = t[rightChildIndex]
+        return deleteKeyHelper(rightChildIndex, t)
+    else:  # Has two children
+        successorIndex = _iOILeft(index, t)
+        t[index] = t[successorIndex]
+        return deleteKeyHelper(successorIndex, t)
+
+def deleteKey(k, t):
     if not verifyKey(k):
         return
     if not verifyTree(t):
         return
-    if len(t) == 0:  # Tree is empty
-        return
-    #if all keys are gone, return an empty tree
-    return
-
-def _iOILeft(n, t):
-    i = prev = n
-    while (i < len(t)) and (t[i] is not None):
-    prev = i
-    i = (i * 2) + 1
-    return prev if (prev != n) else None
-
-# left child -> parent
-# right child -> leftmost of grandparent’s right
-def _iOINext(n, t):
-    r = (n * 2) + 2 # right
-    if (r < len(t)) and (t[r] is not None):
-# parent with right child
-# move to leftmost child of right (or right
-# if no child)
-    if (n := _iOILeft(r, t)) is not None:
-    return n
-return r
-elif n % 2:
-# left leaf or left parent with no
-# right child, go to parent
-n = (n - 1) // 2 # left child -> parent
-return n
-else:
-# at this point, right leaf with
-# no right children. So node’s
-# parent’s subtree is completed.
-# so next is first ancestor
-# above parent who is parent
-# of a left node
-p = (n - 2) // 2 # parent
-leftp = p % 2
-gp = (p - 1) // 2 # grandparent
-while gp and (not leftp):
-leftp = gp % 2
-gp = (gp - 1) // 2
-if leftp:
-return gp
-return -1
-# this is a generator routine that
-# returns successive elements in the
-# inorder traversal
-def _iOI(t):
-# find leftmost child = start node
-4
-if (inorder := _iOILeft(0, t)) is None:
-inorder = 0
-while inorder >= 0:
-yield t[inorder]
-inorder = _iOINext(inorder, t)
+    if len(t) == 0:
+        return t
+    else:
+        indexToDelete = findKey(k, t)
+        if indexToDelete is None:
+            return t
+        else:
+            if(
+                indexToDelete == 0
+                and not hasLeftChild(indexToDelete, t)
+                and not hasRightChild(indexToDelete, t)
+            ):
+                return []
+            else:
+                return deleteKeyHelper(indexToDelete, t)
