@@ -9,7 +9,7 @@ def isValidLength(reference, query):
 
 def bruteForceCompare(reference, query):
     i = 0
-    while reference[i] == query[i]:
+    while reference[i] == query[i] and i < len(query):
         i = i + 1
     if i == len(query) - 1:
         return True
