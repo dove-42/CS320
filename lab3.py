@@ -46,13 +46,15 @@ def countPermStr(string1, string2):
         raise ValueError
 
     numMatches = 0
-    #for every subSequence of query --> send to getNumPerms(subRefOfProperlength, subQuery)
-    #add return value of getNumPerms to numMatches
-    #shift subRefOfProperLength by one char every time getNumPerms returns until you hit the end of the string or the remaining chars are fewer than len(query)
+    i = 0
+    m = len(string2)
+    queryDict = Counter(string2)
 
+    while len(string[i:]) >= m:
+        refDict = Counter(string1[i : i + m])
+        
+        if refDict == queryDict:
+            numMatches += 1
+        
+        i += 1
     return numMatches
-
-
-def countAllPerms(ref, query, refSub, querySub):
-    if len(refSub) < len(querySub) or #end of refLine:
-
