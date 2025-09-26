@@ -1,3 +1,6 @@
+from collections import Counter
+import math
+
 def isEmpty(stringToCheck):
     return len(stringToCheck) == 0
 
@@ -15,8 +18,24 @@ def bruteForceCompare(reference, query):
         return True
     return False
 
-def computeHashVal(sequence, alphabet):
-    return
+def sumCharCountFactorials(charCounts):
+    sum = 0
+    for count in charCounts:
+        sum += math.factorial(count)
+    return sum
+
+def getNumPerms(ref, query):
+    numPerms = 0
+
+    refDict = getDictionary(ref)
+    queryDict = getDictionary(query)
+
+    if refDict == queryDict:
+        charCounts = queryDict.values()
+        sumCharCounts = sumCharCountFactorials(charCounts)
+        numPerms = math.factorial(len(query)) / sumCharCounts
+
+    return numPerms      
 
 def countPermStr(string1, string2):
     if isEmpty(string2):
@@ -27,6 +46,13 @@ def countPermStr(string1, string2):
         raise ValueError
 
     numMatches = 0
-
+    #for every subSequence of query --> send to getNumPerms(subRefOfProperlength, subQuery)
+    #add return value of getNumPerms to numMatches
+    #shift subRefOfProperLength by one char every time getNumPerms returns until you hit the end of the string or the remaining chars are fewer than len(query)
 
     return numMatches
+
+
+def countAllPerms(ref, query, refSub, querySub):
+    if len(refSub) < len(querySub) or #end of refLine:
+
