@@ -18,6 +18,23 @@ def ableToMatch(reference, query):
 
     return queryKeys.issubset(refKeys)
 
+def bruteForceCompare(reference, queryDict):
+    return queryDict == Counter(reference)
+
+def calculateHash(sequence):
+    return Counter(sequence)
+
+def recalculateHash(oldHash, oldChar, newChar):
+    if oldHash.get(oldChar) > 1:
+        oldHash[oldChar] -= 1
+    else:
+        del oldHash[oldChar]
+    if oldHash.get(newChar, None) is None:
+        oldHash[newChar] = 1
+    else:
+        oldHash[newChar] += 1
+    return oldHash
+
 def countPermStr(string1, string2):
     if isEmpty(string2):
         raise ValueError
@@ -35,12 +52,17 @@ def countPermStr(string1, string2):
     i = 0
     m = len(string2)
     queryDict = Counter(string2)
+    queryHash = calculateHash(string2)
+    hashVal = calculateHash(string1[:m])
 
-    while len(string[i:]) >= m:
-        refDict = Counter(string1[i : i + m])
-
-        if refDict == queryDict:
-            numMatches += 1
-
+    while len(string1[i:]) >= m:
+        if hashVal == queryHash:
+            comparison = bruteForceCompare(string1[i:i + m], queryDict)
+            if comparison:
+                numMatches += 1
+        if i + m < len(string1):
+            hashVal = recalculateHash(hashVal, string1[i], string1[i + m])
         i += 1
+
     return numMatches
+
