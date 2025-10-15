@@ -78,3 +78,14 @@ class CuckooSet(Collection):
         return self._allmembers_()
 # ******* THIS IS LINE Y ******************
 
+    def __contains__(x):
+        pass
+    
+    def add(x):
+        pass
+
+    def remove(x):  # Raises ValueError is x is not in the tables
+        pass
+
+    def discard(x):  # Silently returns if x is not in the tables
+        pass
