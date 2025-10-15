@@ -79,7 +79,11 @@ class CuckooSet(Collection):
 # ******* THIS IS LINE Y ******************
 
     def __contains__(x):
-        pass
+        try:
+            hash1, hash2 = self._hash2_(x, self._size_)
+        except TypeError:  # Handle case where x is not hashable
+            return False
+        return self.htab1[hash1] == x or self.htab2[hash2] == x
     
     def add(x):
         pass
