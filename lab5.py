@@ -78,6 +78,14 @@ class CuckooSet(Collection):
         return self._allmembers_()
 # ******* THIS IS LINE Y ******************
 
+    def isHashable(self, x):
+        try:
+            hash(x)
+        except TypeError:
+            return False
+        return True
+
+
     def __contains__(x):
         try:
             hash1, hash2 = self._hash2_(x, self._size_)
