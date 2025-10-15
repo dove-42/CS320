@@ -103,4 +103,14 @@ class CuckooSet(Collection):
             raise ValueError("key may not be None")
 
     def discard(x):  # Silently returns if x is not in the tables
-        pass
+        try:
+            hash1, hash2 = self._hash2_(x, self._size_)
+        except TypeError:
+            return
+        if x in self.htab1:
+            self.htab1[hash1] = None
+            return
+        elif x in self.htab2:
+            self.htab2[hash2] = None
+            return    
+        return
