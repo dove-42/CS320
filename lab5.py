@@ -86,10 +86,12 @@ class CuckooSet(Collection):
         return True
 
 
-    def __contains__(x):
+    def __contains__(self, x):
+        if x is None:
+            raise ValueError("key may not be None")
         try:
             hash1, hash2 = self._hash2_(x, self._size_)
-        except TypeError:  # Handle case where x is not hashable
+        except TypeError:
             return False
         return self.htab1[hash1] == x or self.htab2[hash2] == x
 
