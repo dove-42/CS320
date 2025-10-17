@@ -94,8 +94,35 @@ class CuckooSet(Collection):
         return self.htab1[hash1] == x or self.htab2[hash2] == x
 
 
-    def add(x):
-        pass
+    def add(self, x):
+        if x is None:
+            raise ValueError("key may not be None")
+        if self.isHashable(x):
+            counter = 0
+            while counter < self._MAXSWAPS_:
+                hash1, hash2 = self._hash2_(x, self._size_)
+
+                if self.htab1[hash1] is None:
+                    self.htab1[hash1] = x
+                    return True
+
+                oldVal = self.htab1[hash1]
+                self.htab1[hash1] = x
+
+                newHash1, newHash2 = self._hash2_(oldVal, self._size_)
+
+                if self.htab2[newHash2] is None:
+                    self.htab2[newHash2] = oldVal
+                    return True
+
+                x = self.htab2[newHash2]
+                self.htab2[newHash2] = oldVal
+                counter += 1
+            self._resize_()
+            return self.add(x)
+        else:
+            raise TypeError("unhashable key")
+
 
     def remove(self, x):  # Raises Exception if x is not in the tables
         if x is None:
