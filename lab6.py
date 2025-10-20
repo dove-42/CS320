@@ -35,7 +35,7 @@ class DirtyDeck(Container):
     def shuffle(self):
         self.deck = _full_deck_.copy()
 
-        for i in range(52, 0, -1):
+        for i in range(len(self.deck), 0, -1):
             j = random.randint(0, i)
             self.deck[i], self.deck[j] = self.deck[j], self.deck[i]
 
