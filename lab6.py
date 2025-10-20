@@ -33,7 +33,14 @@ class DirtyDeck(Container):
         return iter(self.deck)
     
     def shuffle(self):
-        pass
+        self.deck = _full_deck_.copy()
+
+        for i in range(52, 0, -1):
+            j = random.randint(0, i)
+            self.deck[i], self.deck[j] = self.deck[j], self.deck[i]
+
+        if self.__hide__ is not None:
+            self.hidden = _convert_to_rank(self.__hide__)
 
     def deal():
         pass
