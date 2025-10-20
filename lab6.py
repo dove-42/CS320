@@ -31,6 +31,12 @@ class DirtyDeck(Container):
 
     def __iter__(self):
         return iter(self.deck)
+    
+    def shuffle(self):
+        pass
+
+    def deal():
+        pass
 
 
 if __name__ == "__main__":
