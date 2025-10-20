@@ -43,8 +43,8 @@ class DirtyDeck(Container):
             self.hidden = _convert_to_rank(self.__hide__)
 
     def deal(self):
-        if len(self.deck) > 52 * 0.25:
-            self.deck.pop()
+        if len(self.deck) > int(52 * 0.25):
+            self.deck.pop(0)
         else:
             raise ResourceWarning("low_deck")
 
