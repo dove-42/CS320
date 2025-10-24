@@ -40,7 +40,15 @@ class DirtyDeck(Container):
             self.deck[i], self.deck[j] = self.deck[j], self.deck[i]
 
         if self.__hide__ is not None:
-            self.hidden = _convert_to_rank(self.__hide__)
+            visible_cards = self.deck.copy()
+            hidden_cards = []
+
+            for card in self.deck:
+                if card == _convert_to_rank(self.__hide__):
+                    visible_cards.remove(card)
+                    hidden_cards.append(card)
+            
+            self.deck = visible_cards + hidden_cards
 
     def deal(self):
         if len(self.deck) > int(52 * 0.25):
