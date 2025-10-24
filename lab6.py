@@ -31,7 +31,7 @@ class DirtyDeck(Container):
 
     def __iter__(self):
         return iter(self.deck)
-    
+
     def shuffle(self):
         self.deck = _full_deck_.copy()
 
@@ -47,7 +47,7 @@ class DirtyDeck(Container):
                 if card == _convert_to_rank(self.__hide__):
                     visible_cards.remove(card)
                     hidden_cards.append(card)
-            
+
             self.deck = visible_cards + hidden_cards
 
     def deal(self):
