@@ -44,7 +44,7 @@ class DirtyDeck(Container):
 
     def deal(self):
         if len(self.deck) > int(52 * 0.25):
-            self.deck.pop(0)
+            return self.deck.pop(0)
         else:
             raise ResourceWarning("low_deck")
 
