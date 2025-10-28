@@ -44,7 +44,7 @@ class DirtyDeck(Container):
             hidden_cards = []
 
             for card in self.deck:
-                if card == _convert_to_rank(self.__hide__):
+                if card.rank == _convert_to_rank(self.__hide__):
                     visible_cards.remove(card)
                     hidden_cards.append(card)
 
@@ -56,7 +56,8 @@ class DirtyDeck(Container):
         else:
             raise ResourceWarning("low_deck")
 
-
+def main():
+    
 if __name__ == "__main__":
 
     d = DirtyDeck()  # rework as unittests
