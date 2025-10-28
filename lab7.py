@@ -1,3 +1,6 @@
+import edgegraph
+
+
 def validInput(graph, start):
     return graph is None or start is None
 
